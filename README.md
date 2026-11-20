@@ -1,17 +1,17 @@
-# TAIA setup
+# TAIA
 
-TAIA sets up your personal AI assistant on your own computer. This page is where you download the setup app. You need the license key you received from The Mullings Group.
+TAIA sets up your personal AI assistant on your own computer. The easiest place to get it is **https://gettaia.app/download**. This repository holds the same files. You need the license key you received from The Mullings Group.
 
-Download the latest version from the **Releases** page of this repository (on the right of this page), or follow the steps for your computer below.
+Install TAIA once. It puts a **TAIA icon on your desktop** and starts a short guided setup. After that, click the TAIA icon to open your Dashboard. TAIA checks for updates each time it starts and asks before it installs one.
 
 ## Windows
 
-1. Open the **Releases** page and download `taia-setup-win-x64.exe`.
-2. Double-click the file.
+1. Download `taia-win-x64.exe` from https://gettaia.app/download (or this repository's **Releases** page).
+2. Open the downloaded file.
 3. Windows may show **"Windows protected your PC"**. This appears because the app is new, not because something is wrong.
    1. Click **More info**.
    2. Click **Run anyway**.
-4. Follow the steps in the setup page that opens in your browser.
+4. Follow the guided setup. When it's done, the TAIA icon is on your desktop.
 
 ## Mac (Apple silicon: M1 or newer)
 
@@ -19,16 +19,10 @@ Download the latest version from the **Releases** page of this repository (on th
 2. Copy this line, paste it into Terminal and press Return:
 
 ```
-curl -sL https://raw.githubusercontent.com/TheMullingsLabs/taia-dist/main/install.sh | bash
+curl -sL https://gettaia.app/install.sh | bash
 ```
 
-3. Open a new Terminal window, then type this and press Return:
-
-```
-taia-setup
-```
-
-4. Follow the steps in the setup page that opens in your browser.
+3. Follow the guided setup. When it's done, the TAIA icon is on your desktop.
 
 Intel Macs are not supported yet. Contact The Mullings Group if you have one.
 
@@ -40,18 +34,20 @@ Needs Ubuntu 22.04 or newer (or another 64-bit Linux from 2022 or later).
 2. Run:
 
 ```
-curl -sL https://raw.githubusercontent.com/TheMullingsLabs/taia-dist/main/install.sh | bash
+curl -sL https://gettaia.app/install.sh | bash
 ```
 
-3. Open a new terminal, then run:
+3. Follow the guided setup. When it's done, the TAIA icon is on your desktop (on WSL, your Windows desktop).
 
-```
-taia-setup
-```
+## Every day
+
+- **Open TAIA:** click the TAIA icon. It starts TAIA if it isn't running and opens your Dashboard in your browser. In a terminal, `taia go` does the same.
+- **Stop TAIA:** type `taia stop` in a terminal.
+- **Updates:** when a new version is out, your Dashboard shows "TAIA vX is available" with an **Update now** button. You can also type `taia update` in a terminal. TAIA checks the download, backs up your Dashboard, updates it and starts it again. Your inboxes, team, knowledge and journal are never touched.
 
 ## Check a download yourself (optional)
 
-Each release has a `checksums-<target>.txt` file. It holds the SHA-256 checksum of the matching app. The Mac and Linux installer checks it for you, and refuses a file that doesn't match.
+Each release has a `checksums-<target>.txt` file. It holds the SHA-256 checksum of the matching app. The Mac and Linux installer and TAIA's own updater check it for you, and refuse a file that doesn't match.
 
 ## Help
 

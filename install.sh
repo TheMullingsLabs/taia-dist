@@ -1,9 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
-# TAIA setup installer for macOS (Apple silicon) and Linux / WSL (x64).
-# Usage: curl -sL https://raw.githubusercontent.com/TheMullingsLabs/taia-dist/main/install.sh | bash
-# Windows: download taia-setup-win-x64.exe from the Releases page instead.
+# TAIA installer for macOS (Apple silicon) and Linux / WSL (x64).
+# Usage: curl -sL https://gettaia.app/install.sh | bash
+# (gettaia.app/install.sh sends the browser or curl here:
+#  https://raw.githubusercontent.com/TheMullingsLabs/taia-dist/main/install.sh)
+# Windows: download taia-win-x64.exe from https://gettaia.app/download instead.
+#
+# It installs ~/.local/bin/taia, puts the TAIA icon on the desktop
+# (`taia install`), then starts the guided setup in this same terminal.
 #
 # Source of truth: dist/install.sh in the private taia repo. taia-dist holds
 # a copy, updated by hand whenever this file changes.
@@ -49,7 +54,7 @@ ARCH="$(uname -m)"
 case "${OS}" in
   linux*)  PLATFORM="linux" ;;
   darwin*) PLATFORM="darwin" ;;
-  *)       echo "Unsupported system: ${OS}. On Windows, download the .exe from the Releases page."; exit 1 ;;
+  *)       echo "Unsupported system: ${OS}. On Windows, download TAIA from https://gettaia.app/download instead."; exit 1 ;;
 esac
 case "${ARCH}" in
   x86_64|amd64)  ARCH="x64" ;;
@@ -59,9 +64,9 @@ esac
 TARGET="${PLATFORM}-${ARCH}"
 case "${TARGET}" in
   linux-x64|darwin-arm64) ;;
-  *) echo "TAIA setup is not built for ${TARGET} yet. Contact The Mullings Group."; exit 1 ;;
+  *) echo "TAIA is not built for ${TARGET} yet. Contact The Mullings Group."; exit 1 ;;
 esac
-BINARY_NAME="taia-setup-${TARGET}"
+BINARY_NAME="taia-${TARGET}"
 
 # A pinned version (TAIA_VERSION=v1.3.0) skips the "latest release" lookup.
 TAG="${TAIA_VERSION:-}"
@@ -71,7 +76,7 @@ if [ -z "${TAG}" ]; then
     TAG=$(grep '"tag_name"' "${WORK}/latest.json" | sed 's/.*"tag_name": *"\([^"]*\)".*/\1/' || true)
   fi
   if [ -z "${TAG}" ]; then
-    echo "ERROR: Could not find a published version of TAIA setup."
+    echo "ERROR: Could not find a published version of TAIA."
     echo "Check your internet connection and try again. If it keeps happening, contact The Mullings Group."
     exit "${EXIT_NO_RELEASE}"
   fi
@@ -109,11 +114,13 @@ fi
 # one or the complete new one, never a partial file.
 if ! {
   mkdir -p "${INSTALL_DIR}" &&
-    cp "${WORK}/${BINARY_NAME}" "${INSTALL_DIR}/.taia-setup.new.$$" &&
-    chmod +x "${INSTALL_DIR}/.taia-setup.new.$$" &&
-    mv -f "${INSTALL_DIR}/.taia-setup.new.$$" "${INSTALL_DIR}/taia-setup"
+    cp "${WORK}/${BINARY_NAME}" "${INSTALL_DIR}/.taia.new.$$" &&
+    chmod +x "${INSTALL_DIR}/.taia.new.$$" &&
+    mv -f "${INSTALL_DIR}/.taia.new.$$" "${INSTALL_DIR}/taia" &&
+    # The old name, for anyone following older steps.
+    ln -sfn taia "${INSTALL_DIR}/taia-setup"
 }; then
-  rm -f "${INSTALL_DIR}/.taia-setup.new.$$"
+  rm -f "${INSTALL_DIR}/.taia.new.$$"
   echo "ERROR: Install failed. Nothing was changed."
   exit "${EXIT_INSTALL}"
 fi
@@ -149,13 +156,26 @@ case ":${PATH}:" in
 esac
 
 echo ""
-echo "  TAIA setup ${TAG} is installed at ${INSTALL_DIR}/taia-setup"
+echo "  TAIA ${TAG} is installed at ${INSTALL_DIR}/taia"
 echo ""
-if [ -n "${PATH_UPDATED}" ]; then
-  echo "  Open a new terminal window, then run:"
+
+# The desktop icon. TAIA still works from the terminal if this fails.
+"${INSTALL_DIR}/taia" install || echo "  The desktop icon could not be made. You can still type: taia go"
+
+# Start the guided setup (or, if TAIA is already set up, open the Dashboard)
+# right here. The script itself comes through a pipe, so the questions read
+# the keyboard from /dev/tty. Not in a terminal: say what to run instead.
+if [ -t 1 ] && (exec </dev/tty) 2>/dev/null; then
+  echo ""
+  "${INSTALL_DIR}/taia" </dev/tty
 else
-  echo "  Now run:"
+  echo ""
+  if [ -n "${PATH_UPDATED}" ]; then
+    echo "  Open a new terminal window, then run:"
+  else
+    echo "  Now run:"
+  fi
+  echo ""
+  echo "    taia"
+  echo ""
 fi
-echo ""
-echo "    taia-setup"
-echo ""

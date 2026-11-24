@@ -22,7 +22,7 @@ Install TAIA once. It puts a **TAIA icon on your desktop** and starts a short gu
 Or install from Terminal: open the **Terminal** app (press Cmd+Space, type `Terminal`, press Return), paste this line and press Return:
 
 ```
-curl -sL https://gettaia.app/install.sh | bash
+curl -fsSL https://gettaia.app/install.sh | bash
 ```
 
 Don't download `taia-darwin-arm64` by hand: it is for the line above and for TAIA's updater, and a Mac opens it as text.
@@ -37,7 +37,7 @@ Needs Ubuntu 22.04 or newer (or another 64-bit Linux from 2022 or later).
 2. Run:
 
 ```
-curl -sL https://gettaia.app/install.sh | bash
+curl -fsSL https://gettaia.app/install.sh | bash
 ```
 
 3. Follow the guided setup. When it's done, the TAIA icon is on your desktop (on WSL, your Windows desktop).
@@ -50,7 +50,17 @@ curl -sL https://gettaia.app/install.sh | bash
 
 ## Check a download yourself (optional)
 
-Each release has a `checksums-<target>.txt` file. It holds the SHA-256 checksum of the matching app. The Mac and Linux installer and TAIA's own updater check it for you, and refuse a file that doesn't match.
+Each release has a `checksums-<target>.txt` file. Its first line names the version; the next holds the SHA-256 checksum of the matching app. Its `.sig` file is The Mullings Group's signature of it. The Mac and Linux installer and TAIA's own updater check both for you, and refuse a file that isn't signed or doesn't match.
+
+To check one yourself, save the public key from `install.sh` (the lines from `-----BEGIN PUBLIC KEY-----` to `-----END PUBLIC KEY-----`) as `taia-release-key.pem`, then run:
+
+```
+openssl dgst -sha256 -verify taia-release-key.pem -signature checksums-linux-x64.txt.sig checksums-linux-x64.txt
+```
+
+```
+sha256sum -c checksums-linux-x64.txt
+```
 
 ## Help
 

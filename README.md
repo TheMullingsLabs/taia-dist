@@ -15,14 +15,17 @@ Install TAIA once. It puts a **TAIA icon on your desktop** and starts a short gu
 
 ## Mac (Apple silicon: M1 or newer)
 
-1. Open the **Terminal** app (press Cmd+Space, type `Terminal`, press Return).
-2. Copy this line, paste it into Terminal and press Return:
+1. Download **TAIA-mac.zip** from the [latest release](https://github.com/TheMullingsLabs/taia-dist/releases/latest/download/TAIA-mac.zip).
+2. Open the downloaded file, then double-click **TAIA**. If your Mac asks whether to open it, click **Open**.
+3. Follow the guided setup in the Terminal window that opens. When it's done, the TAIA icon is on your desktop.
+
+Or install from Terminal: open the **Terminal** app (press Cmd+Space, type `Terminal`, press Return), paste this line and press Return:
 
 ```
 curl -sL https://gettaia.app/install.sh | bash
 ```
 
-3. Follow the guided setup. When it's done, the TAIA icon is on your desktop.
+Don't download `taia-darwin-arm64` by hand: it is for the line above and for TAIA's updater, and a Mac opens it as text.
 
 Intel Macs are not supported yet. Contact The Mullings Group if you have one.
 

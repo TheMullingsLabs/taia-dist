@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-# TAIA installer for macOS (Apple silicon) and Linux / WSL (x64).
+# TAIA installer for macOS (Apple silicon and Intel) and Linux / WSL (x64).
 # Usage: curl -fsSL https://gettaia.app/install.sh | bash
 # (gettaia.app/install.sh sends the browser or curl here:
 #  https://raw.githubusercontent.com/TheMullingsLabs/taia-dist/main/install.sh)
@@ -76,7 +76,7 @@ main() {
   esac
   TARGET="${PLATFORM}-${ARCH}"
   case "${TARGET}" in
-    linux-x64|darwin-arm64) ;;
+    linux-x64|darwin-arm64|darwin-x64) ;;
     *) echo "TAIA is not built for ${TARGET} yet. Contact The Mullings Group."; exit 1 ;;
   esac
   BINARY_NAME="taia-${TARGET}"

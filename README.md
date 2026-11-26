@@ -13,21 +13,19 @@ Install TAIA once. It puts a **TAIA icon on your desktop** and starts a short gu
    2. Click **Run anyway**.
 4. Follow the guided setup. When it's done, the TAIA icon is on your desktop.
 
-## Mac (Apple silicon: M1 or newer)
+## Mac (Apple Silicon or Intel)
 
-1. Download **TAIA-mac.zip** from the [latest release](https://github.com/TheMullingsLabs/taia-dist/releases/latest/download/TAIA-mac.zip).
+1. Find out which Mac you have: Apple menu, **About This Mac**. If **Chip** says Apple M1 or newer, download **TAIA-mac.zip** from the [latest release](https://github.com/TheMullingsLabs/taia-dist/releases/latest/download/TAIA-mac.zip). If it says Intel, download **TAIA-mac-intel.zip** from the [latest release](https://github.com/TheMullingsLabs/taia-dist/releases/latest/download/TAIA-mac-intel.zip).
 2. Open the downloaded file, then double-click **TAIA**. If your Mac asks whether to open it, click **Open**.
 3. Follow the guided setup in the Terminal window that opens. When it's done, the TAIA icon is on your desktop.
 
-Or install from Terminal: open the **Terminal** app (press Cmd+Space, type `Terminal`, press Return), paste this line and press Return:
+Or install from Terminal (it picks the right build for your Mac): open the **Terminal** app (press Cmd+Space, type `Terminal`, press Return), paste this line and press Return:
 
 ```
 curl -fsSL https://gettaia.app/install.sh | bash
 ```
 
-Don't download `taia-darwin-arm64` by hand: it is for the line above and for TAIA's updater, and a Mac opens it as text.
-
-Intel Macs are not supported yet. Contact The Mullings Group if you have one.
+Don't download `taia-darwin-arm64` or `taia-darwin-x64` by hand: it is for the line above and for TAIA's updater, and a Mac opens it as text.
 
 ## Linux and WSL (Windows Subsystem for Linux)
 
